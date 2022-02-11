@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "declaration": true, // 将生成.d.ts文件
+        "noImplicitAny": false, // 允许隐式的any类型
+        "esModuleInterop": true,
+        "removeComments": false, // 不删除注释
+        "outDir": "./lib", // 输出目录
+        "paths": {  // 别名
+            "@/*": ["./src/*"]
+        },
+        // ttsc转换插件
+        "plugins": [
+            { "transform": "typescript-transform-paths" },
+            { "transform": "typescript-transform-paths", "afterDeclarations": true }
+        ],
+        // 声明文件目录
+        "typeRoots": ["./node_modules/@types", "./src/@types"],
+        "lib": ["es2020", "DOM"]
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "example"]
+}
