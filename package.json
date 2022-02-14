@@ -19,6 +19,14 @@
   },
   "keywords": [],
   "author": "caifeng01",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/npm/cli.git"
+  },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com",
+    "repository": "git://github.com/caifeng123/react-ref-form.git"
+  },
   "license": "MIT",
   "files": [
     "lib"
