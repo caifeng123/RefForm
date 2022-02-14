@@ -29,50 +29,60 @@ export const ComponentWrapper: FC<ComponentWrapperProps> = ({
     Component,
     keyName,
     rules = [],
-    validators,
     ...rest
 }) => {
     const [, setstate] = useState({});
-    const customValidate = useRef<Record<string, ((value: string) => void) | null>>({});
+    const customValidate = useRef<Record<string, ((value: any, shouldValid?: boolean) => null | string) | null>>({});
     const value = keyName ? _.get(form.data, keyName) : form.data;
 
-    // 实时页面更新并返回错误
-    const refreash = (func: (val: string) => string | undefined, str: string) => val => {
-        const error = func(val);
-        _.set(form.error = form.error ?? {}, str, error);
-        setstate({});
-        return error;
+    /**
+     * 实时页面更新并返回错误
+     * 1、校验更新错误
+     * 2、关闭校验时清空错误
+     */
+    const refreash = (func: (val: string) => string | null, str: string) => (val: any, shouldValid = true) => {
+        // 当修改值触发 或 清空不为空的错误时，进行重新渲染
+        if (shouldValid || !shouldValid && _.get(form.error, str)) {
+            const error = shouldValid ? func(val) : undefined;
+            _.set(form.error = form.error ?? {}, str, error);
+            setstate({});
+            return error;
+        }
     };
 
     // 注册自定义校验
-    const validate = (key: string, func: (val: string) => string | undefined) => {
+    const validate = (func: (val: string) => string | null, key?: string) => {
         const str = `${keyName}${key ? `.${key}` : ''}`;
         customValidate.current[keyName] = null;
         customValidate.current[str] = refreash(func, str);
     };
 
     // 组件value改变事件，prevValidate作为前置校验判断是否校验
-    const onChange = (func: (val: any) => any | any, key?: string, prevValidate = () => true) => {
-        const str =  `${keyName}${key ? `.${key}` : ''}`;
+    const onChange = (
+        func: (val: any) => any | any,
+        key?: string,
+        options?: {prevValidate?: (e?: string) => boolean, atTop?: boolean}
+    ) => {
+        // 是否运行校验prevValidate先决条件 atTop: 从最上层修改form内属性
+        const {prevValidate = () => true, atTop = false} = options ?? {};
+        const str =  atTop ? key : `${keyName}${key ? `.${key}` : ''}`;
         const e = typeof func === 'function' ? func(_.get(form.data, str)) : func;
         _.set(form.data, str, e);
-        if (prevValidate()) {
-            customValidate.current[str]?.(e);
-        }
+        customValidate.current[str]?.(e, prevValidate(e));
         // 向多播事件发送修改的keyName
         subject.next(keyName);
         setstate({});
     };
 
-    // 获取组件错误信息
-    const getError = (key?: string, getTop = false) => {
-        const str =  getTop ? key : `${keyName}${key ? `.${key}` : ''}`;
+    // 获取组件错误信息，可从form最外层获取错误
+    const getError = (key?: string, atTop = false) => {
+        const str =  atTop ? key : `${keyName}${key ? `.${key}` : ''}`;
         return _.get(form.error, str);
     };
 
-    // 获取组件值
-    const getValue = (key?: string, getTop = false) => {
-        const str =  getTop ? key : `${keyName}${key ? `.${key}` : ''}`;
+    // 获取组件值，可从form最外层获取值
+    const getValue = (key?: string, atTop = false) => {
+        const str =  atTop ? key : `${keyName}${key ? `.${key}` : ''}`;
         return _.get(form.data, str);
     };
 
@@ -81,7 +91,7 @@ export const ComponentWrapper: FC<ComponentWrapperProps> = ({
         if (_.isEmpty(customValidate.current)) {
             customValidate.current[keyName] = refreash(validator(rules), keyName);
         }
-        validators.push(customValidate.current);
+        form.validators.push(customValidate.current);
     }, []);
 
     // 处理options中的依赖项，可依赖多个选项

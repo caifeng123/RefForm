@@ -12,11 +12,13 @@ import {FormProps} from '@/@types';
  */
 export const useForm = (initial: Record<string, any> = {}) => {
     const [, set] = useState({});
+    // 全局校验存储
     const form = useRef<FormProps>({
         data: initial,
         error: {},
         validateFields: () => {},
-        setFormValue: () => {}
+        setFormValue: () => {},
+        validators: []
     });
 
     useEffect(() => {

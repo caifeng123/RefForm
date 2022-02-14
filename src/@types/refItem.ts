@@ -8,9 +8,13 @@ import {Subject} from 'rxjs';
 
 export interface CustomComponent {
     [key: string]: any;
-    onChange: (func: (val: any) => any | any, key: string, prevValidate?: () => boolean) => void;
+    onChange: (
+        func: ((val: any) => any) | any,
+        key?: string,
+        options?: {prevValidate?: (e?: string) => boolean, atTop?: boolean}
+    ) => void;
     setFormValue: (e: any | ((val: any) => any), key: string) => void;
-    validate: (key: string, func: (val: string) => string | undefined) => void;
+    validate: (func: (val: string) => string | undefined, key?: string) => void;
     getError: (key: string, getTop?: boolean) => any;
     getValue: (key: string, getTop?: boolean) => any;
     keyName: string;
@@ -21,7 +25,6 @@ export interface CustomComponent {
 
 export interface ComponentWrapperProps {
     subject: Subject<string>;
-    validators: Array<{[key: string]: ((value: string) => void)}>;
     form: FormProps;
     Component: (props: CustomComponent) => ReactElement;
     keyName: string;
@@ -63,6 +66,7 @@ export interface FormProps {
         shouldValid?: ShouldValid
     ) => void;
     setFormValue: (newData: Record<string, any> | ((e: Record<string, any>) => Record<string, any>)) => void;
+    validators: Array<Record<string, (value: any, shouldValid?: boolean) => null | string>>;
 };
 
 export interface RefItemProps extends ItemBase {

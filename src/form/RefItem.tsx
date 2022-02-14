@@ -34,8 +34,7 @@ export const RefItem: FC<RefItemProps> = ({
 }) => {
     const width = 24 / colCount | 0;
     const rows = _.chunk(options, colCount);
-    // 全局校验存储
-    const validators = useRef<Array<{[key: string]: ((value: string) => string | null)}>>([]);
+
     // 注册多播事件，其他检查是否是个人监听组件
     const subject = useRef(new Subject<string>());
 
@@ -43,14 +42,10 @@ export const RefItem: FC<RefItemProps> = ({
         // 子组件useEffect先执行完 最后执行item的useEffect
         // 因此在这注册全局校验函数 - 提交时调用
         form.validateFields = (func, shouldValid: ShouldValid = () => true) => {
-            const allValidators = validators.current.reduce((all, temp) => ({...all, ...temp}), {});
+            const allValidators = form.validators.reduce((all, temp) => ({...all, ...temp}), {});
             const errors = _.map(
-                allValidators, (value, key) => {
-                    if (!shouldValid(key)) {
-                        return;
-                    }
-                    return value?.(_.get(form.data, key));
-                }
+                allValidators,
+                (validator, key) => validator?.(_.get(form.data, key), shouldValid(key))
             ).filter(Boolean);
 
             func(errors.length ? errors : null, form.data);
@@ -78,7 +73,6 @@ export const RefItem: FC<RefItemProps> = ({
                                 >
                                     <ComponentWrapper
                                         {...rest}
-                                        validators={validators.current}
                                         keyName={keyName}
                                         subject={subject.current}
                                         form={form}
