@@ -1,7 +1,7 @@
 {
   "name": "react-ref-form",
   "description": "使用ref构建的Form表单",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
