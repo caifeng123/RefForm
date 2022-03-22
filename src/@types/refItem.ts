@@ -3,25 +3,31 @@
  * @author caifeng01
  */
 
-import {ReactElement} from 'react';
+import {ReactElement, ReactNode} from 'react';
 import {Subject} from 'rxjs';
 
 export interface CustomComponent {
     [key: string]: any;
-    onChange: (
+    onChange?: (
         func: ((val: any) => any) | any,
         key?: string,
         options?: {prevValidate?: (e?: string) => boolean, atTop?: boolean}
     ) => void;
-    setFormValue: (e: any | ((val: any) => any), key: string) => void;
-    validate: (func: (val: string) => string | undefined, key?: string) => void;
-    getError: (key: string, getTop?: boolean) => any;
-    getValue: (key: string, getTop?: boolean) => any;
-    keyName: string;
-    subject: Subject<string>;
-    value: any;
-    error: string | undefined;
+    setFormValue?: (e: any | ((val: any) => any), key: string) => void;
+    validate?: (func: (val: string) => string | undefined, key?: string) => void;
+    getError?: (key?: string, getTop?: boolean) => any;
+    getValue?: (key?: string, getTop?: boolean) => any;
+    keyName?: string;
+    subject?: Subject<string>;
+    value?: any;
+    error?: string | undefined;
 }
+
+export interface RuleType {
+    required?: boolean;
+    message?: string;
+    pattern?: RegExp;
+};
 
 export interface ComponentWrapperProps {
     subject: Subject<string>;
@@ -29,15 +35,17 @@ export interface ComponentWrapperProps {
     Component: (props: CustomComponent) => ReactElement;
     keyName: string;
     deps?: string[] | DEPS;
-    rules?: Array<Record<string, any>>;
+    rules?: RuleType[];
 }
 
 interface OptionProps {
-    label: string;
+    [key: string]: any;
+    label: string | ReactNode | (() => ReactNode);
     keyName: string;
-    value: (props: CustomComponent) => ReactElement;
+    value?: (props: CustomComponent) => ReactElement;
     deps?: string[] | DEPS;
     required?: boolean;
+    rules?: Array<Record<string, any>>;
 }
 
 interface ItemBase {

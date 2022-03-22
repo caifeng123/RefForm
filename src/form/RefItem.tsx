@@ -7,16 +7,34 @@ import {Row, Col} from 'antd';
 import _ from 'lodash';
 import {FC, useEffect, useRef} from 'react';
 import {Subject} from 'rxjs';
-import {RefItemProps, ShouldValid} from '@/@types';
+import {CustomComponent, RefItemProps, ShouldValid} from '@/@types';
 import {ComponentWrapper, PlainText} from './RefItemUtils';
 import {FormItemWrapper, LabelWrapper} from './ui';
 
 const FormItem = ({position, label, labelColSpan, colon, contentDisplay, className, children, required}) => (
     <FormItemWrapper contentDisplay={contentDisplay} position={position} className={className}>
         <LabelWrapper labelColSpan={labelColSpan} colon={colon} required={required}>{label}</LabelWrapper>
-        <div className='content'>{children}</div>
+        <div className='form-item-content'>{children}</div>
     </FormItemWrapper>
 );
+
+// 基本错误显示框架
+const ErrorWrapper = ({
+    value, error, onChange, component = PlainText, validate, validateFunc, filter = e => e, getValue, ...rest
+}: CustomComponent) => {
+    const other = _.omit(rest, ['setFormValue', 'getError', 'getValue', 'keyName']);
+    const Comp = component;
+    const customChange = e => onChange(filter(e));
+    useEffect(() => {
+        validateFunc && validate(validateFunc);
+    }, []);
+    return (
+        <>
+            <Comp value={value} onChange={customChange} {...other} />
+            <div style={{color: 'red'}}>{error}</div>
+        </>
+    );
+};
 
 /**
  * 目的为了提高渲染性能+执行效率
@@ -57,7 +75,7 @@ export const RefItem: FC<RefItemProps> = ({
             {_.map(rows, (cols, key) => (
                 <Row className="row" key={key} justify="center">
                     {
-                        _.map(cols, ({value = PlainText, keyName, label, ...rest}, index) => (
+                        _.map(cols, ({value = ErrorWrapper, keyName, label, ...rest}, index) => (
                             <Col
                                 span={width}
                                 key={index}

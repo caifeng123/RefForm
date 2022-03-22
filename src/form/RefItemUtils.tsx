@@ -5,11 +5,11 @@
 
 import _ from 'lodash';
 import {useRef, useState, useEffect, FC} from 'react';
-import {ComponentWrapperProps, DEPS} from '@/@types';
+import {ComponentWrapperProps, DEPS, RuleType} from '@/@types';
 import useDeepEffect from './useDeepEffect';
 
 // 注册options中的rules
-const validator = (rules = []) =>
+const validator = (rules: RuleType[] = []) =>
     value => rules.reduce((all, {required = false, message, pattern}) => {
         if (required && !value?.length) {
             all.unshift(message);

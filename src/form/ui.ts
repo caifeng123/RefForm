@@ -9,7 +9,7 @@ export const FormItemWrapper = styled.div<{contentDisplay: string, position: str
     display: flex;
     flex-wrap: nowrap;
     justify-content: ${({position}) => position};
-    .content {
+    .form-item-content {
         flex: ${({contentDisplay}) => +(contentDisplay === 'block') };
         display: flex;
         flex-direction: column;
@@ -42,3 +42,4 @@ export const LabelWrapper = styled.label<{labelColSpan: number, colon: boolean, 
         }
     ` : ''}
 `;
+ 
