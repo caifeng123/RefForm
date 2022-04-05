@@ -46,7 +46,7 @@ const designInfo = [
 ];
 ```
 
-![2](https://raw.githubusercontent.com/caifeng123/pictures/master/chrome-capture (13).gif)
+![dep](https://raw.githubusercontent.com/caifeng123/pictures/master/dep.gif)
 
 ### 3、分叉渲染
 
@@ -109,13 +109,9 @@ const designInfo = [
 ];
 ```
 
-![chrome-capture (23)](https://raw.githubusercontent.com/caifeng123/pictures/master/chrome-capture%20(23).gif)
-
-
+![分叉渲染](https://raw.githubusercontent.com/caifeng123/pictures/master/%E5%88%86%E5%8F%89%E6%B8%B2%E6%9F%93.gif)
 
 更多请看 [demos](https://caifeng123.github.io/react-ref-form/docs/)
-
-
 
 ## 快速上手
 
@@ -132,23 +128,23 @@ const designInfo = [
 import {useForm} from 'react-ref-form';
 
 export default () => {
-	const form = useForm();
+    const form = useForm();
   
-  const submit = () => {
-    form.validateFields((err, value) => {
-      if(err){
-        console.log('err:', err);
-      }else{
-        console.log('value:', value);
-      }
-    })
-  }
-  return (
-  	<>
-    	<RefItem form={form} options={options} /> 
-    	<Button onClick={submit}>提交</Button>
-    </>
-  )
+    const submit = () => {
+        form.validateFields((err, value) => {
+            if(err){
+                console.log('err:', err);
+            }else{
+                console.log('value:', value);
+            }
+        })
+    }
+    return (
+        <>
+            <RefItem form={form} options={options} /> 
+            <Button onClick={submit}>提交</Button>
+        </>
+    )
 }
 ```
 
@@ -206,14 +202,14 @@ enum DEPS {
 import {DEPS, OptionProps} from 'react-ref-form';
 
 options: OptionProps = [
-  {
-  	...
-  	deps: ['name', 'age']
-	},
-	{
-		...
-		deps: DEPS.All
-	}
+    {
+        ...
+        deps: ['name', 'age']
+    },
+    {
+        ...
+        deps: DEPS.All
+    }
 ];
 ```
 
@@ -225,7 +221,7 @@ options: OptionProps = [
 
 ```ts
 interface RuleType {
-		message: string;
+    message: string;
     required?: boolean;
     pattern?: RegExp;
 };
@@ -234,11 +230,10 @@ interface RuleType {
 import {OptionProps} from 'react-ref-form';
 
 options: OptionProps = [
-  {
-  	...
-  	rules: [{required: true, message:'必填'}, {pattern: /^\d+$/, message:'只能输入整数'}]
-	}
- 	...
+    {
+        ...
+        rules: [{required: true, message:'必填'}, {pattern: /^\d+$/, message:'只能输入整数'}]
+    }
 ];
 ```
 
@@ -299,13 +294,13 @@ const CustomInput = ({ value, onChange, error }: CustomComponent) => (
 ```ts
 interface CustomComponent {
     [key: string]: any;
-  	// onChange函数
+    // onChange函数
     onChange?: (
-  			// 可直接填入变化值也可以使用回调函数形式（基于之前的值变化函数）
-  			e: ((val: any) => any) | any,
-  			// 子项key，默认不写 修改当前项
+        // 可直接填入变化值也可以使用回调函数形式（基于之前的值变化函数）
+        e: ((val: any) => any) | any,
+        // 子项key，默认不写 修改当前项
         subKey?: string,
-  			options?: {
+        options?: {
           // 校验前提函数（目的是为了）在满足某些情况下不校验。
           // 比如：若当电话号码没输入到11位时不校验，否则影响体验
           prevValidate?: (e?: string) => boolean;
@@ -313,20 +308,20 @@ interface CustomComponent {
           // 比如: 当修改某一项时 不止需要修改当前项还要修改表单其他项的值。那么subKey无法找到，这时就可以通过配置atTop去从顶端寻找
           atTop?: boolean;
         }
-  	) => void;
-  	// 表单赋值
+    ) => void;
+    // 表单赋值
     setFormValue?: (e: any | ((val: any) => any), key: string) => void;
-  	// 自定义校验函数
+    // 自定义校验函数
     validate?: (func: (val: string) => string | undefined, key?: string) => void;
-  	// 根据key获取错误信息、atTop: 是否从form第一级寻找key
+    // 根据key获取错误信息、atTop: 是否从form第一级寻找key
     getError?: (subKey?: string, atTop?: boolean) => any;
-  	// 根据key获取value值、atTop: 是否从form第一级寻找key
+    // 根据key获取value值、atTop: 是否从form第一级寻找key
     getValue?: (subKey?: string, atTop?: boolean) => any;
-  	// 当前表单项的key
+    // 当前表单项的key
     key?: string;
-	  //** rxjs的广播对象，理论上不会使用
+    //** rxjs的广播对象，理论上不会使用
     subject?: Subject<string>;
-  	// 当前表单值
+    // 当前表单值
     value?: any;
     // 当前错误值
     error?: any;
