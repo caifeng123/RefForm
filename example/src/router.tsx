@@ -4,11 +4,12 @@
  */
 
 import { Table } from "antd";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import Base from "./base";
 import Validator from "./validator";
 import Deps from "./deps";
 import Quick from "./quick";
+import OneOf from "./oneOf";
 import Navigator from "./utils/customerComponents/Navigator";
 
 const introduction = [
@@ -35,6 +36,12 @@ const introduction = [
     path: "deps",
     introduction: "添加依赖渲染",
     element: <Deps />
+  },
+  {
+    name: "分叉渲染",
+    path: "divide",
+    introduction: "表单项值决定其他表单项值",
+    element: <OneOf />
   }
 ];
 
@@ -66,7 +73,7 @@ const RouteList = [{ path: "/", element: <Introduction /> }].concat(
 );
 
 export default () => (
-  <BrowserRouter>
+  <HashRouter>
     <Routes>
       {RouteList.map(({ path, element }) => (
         <Route
@@ -76,5 +83,5 @@ export default () => (
         />
       ))}
     </Routes>
-  </BrowserRouter>
+  </HashRouter>
 );

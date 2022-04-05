@@ -31,7 +31,7 @@ const CustomerInput = ({
 const info1 = [
   {
     label: "换热站设计流量1",
-    keyName: "stationDesignedG1",
+    key: "stationDesignedG1",
     rules: [
       { pattern: /\w+/g, message: "请输入内容" },
       { pattern: /^\w{1,10}$/, message: "最多10个字符" }
@@ -43,7 +43,7 @@ const info1 = [
 const info2 = [
   {
     label: "换热站设计流量2",
-    keyName: "stationDesignedG2",
+    key: "stationDesignedG2",
     required: true,
     value: CustomerInput
   }
