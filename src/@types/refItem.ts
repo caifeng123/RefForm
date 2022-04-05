@@ -11,17 +11,17 @@ export interface CustomComponent {
     [key: string]: any;
     onChange?: (
         func: ((val: any) => any) | any,
-        key?: string,
-        options?: {prevValidate?: (e?: string) => boolean, atTop?: boolean}
+        subKey?: string,
+        options?: {prevValidate?: (e?: any) => boolean, atTop?: boolean}
     ) => void;
     setFormValue?: (e: any | ((val: any) => any), key: string) => void;
     validate?: (func: (val: any) => string | undefined, key?: string) => void;
-    getError?: (key?: string, getTop?: boolean) => any;
-    getValue?: (key?: string, getTop?: boolean) => any;
+    getError?: (subKey?: string, atTop?: boolean) => any;
+    getValue?: (subKey?: string, atTop?: boolean) => any;
     keyName?: string;
     subject?: Subject<string>;
     value?: any;
-    error?: string | undefined;
+    error?: any;
 }
 
 // options的ts
@@ -33,7 +33,7 @@ export interface OptionProps {
     component?: any;
     deps?: string[] | DEPS;
     required?: boolean;
-    rules?: Array<Record<string, any>>;
+    rules?: RuleType[];
 }
 
 interface ItemBase {
@@ -48,7 +48,6 @@ interface ItemBase {
     position?: 'start' | 'center' | 'end';
     // 内容表现形式 inline - 元素本身大小 block - 撑满剩余大小
     contentDisplay?: 'inline' | 'block';
-    customItemClassName?: string;
 }
 
 export type ShouldValid = (e: string) => boolean;
@@ -74,8 +73,8 @@ export enum DEPS {
 }
 
 export interface RuleType {
+    message: string;
     required?: boolean;
-    message?: string;
     pattern?: RegExp;
 };
 

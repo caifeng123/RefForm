@@ -27,9 +27,10 @@ export const FormItemWrapper = styled.div<FormItemWrapperProps>`
 
 export const LabelWrapper = styled.label<LabelWrapperProps>`
     flex: 0 0 ${({labelColSpan}) => `${100 / 24 * labelColSpan}%`};
+    position: relative;
     padding-left: calc(4px + 0.5em);
     vertical-align: middle;
-    line-height: 39.9999px;
+    line-height: 40px;
     display: inline-block;
     overflow: hidden;
     color: #000;
