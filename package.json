@@ -6,11 +6,10 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --config config/webpack.dev.config.js",
+    "doc": "webpack --config config/webpack.doc.config.js",
     "build": "webpack --config config/webpack.prod.config.js",
-    "pub": "yarn build && npm publish",
-    "lint": "npx fecs src --color --rule --type=js"
+    "pub": "yarn build && npm publish"
   },
   "config": {
     "ghooks": {
