@@ -1,7 +1,7 @@
 /**
- * 子表格
+ * @file 模板特征值
+ * @author caifeng(caifeng01@baidu.com)
  */
-
 import { Table, Input } from "antd";
 import _ from "lodash";
 import { CustomComponent } from "react-ref-form";

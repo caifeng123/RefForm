@@ -18,7 +18,7 @@ export const useForm = (initial: Record<string, any> = {}) => {
         error: {},
         validateFields: () => {},
         setFormValue: () => {},
-        validators: {}
+        validators: []
     });
 
     useEffect(() => {

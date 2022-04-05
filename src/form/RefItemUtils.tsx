@@ -9,7 +9,7 @@ import {ComponentWrapperProps, DEPS, RuleType} from '@/@types';
 import useDeepEffect from './useDeepEffect';
 
 // 注册options中的rules
-const transformRules = (rules: RuleType[] = []) =>
+const validator = (rules: RuleType[] = []) =>
     value => rules.reduce((all, {required = false, message, pattern}) => {
         if (required && !value?.length) {
             all.unshift(message);
@@ -27,7 +27,6 @@ export const ComponentWrapper: FC<ComponentWrapperProps> = ({
     deps,
     form,
     Component,
-    // 由于key无法透传改名为keyName
     keyName,
     rules = [],
     ...rest
@@ -41,7 +40,7 @@ export const ComponentWrapper: FC<ComponentWrapperProps> = ({
      * 1、校验更新错误
      * 2、关闭校验时清空错误
      */
-    const registerValidator = (func: (val: any) => string | null, str: string) => (val: any, shouldValid = true) => {
+    const refreash = (func: (val: string) => string | null, str: string) => (val: any, shouldValid = true) => {
         // 当修改值触发 或 清空不为空的错误时，进行重新渲染
         if (shouldValid || !shouldValid && _.get(form.error, str)) {
             const error = shouldValid ? func(val) : undefined;
@@ -52,21 +51,21 @@ export const ComponentWrapper: FC<ComponentWrapperProps> = ({
     };
 
     // 注册自定义校验
-    const customerValidate = (customerFunc: (val: any) => string | null, subKey?: string) => {
-        const str = `${keyName}${subKey ? `.${subKey}` : ''}`;
+    const validate = (func: (val: string) => string | null, key?: string) => {
+        const str = `${keyName}${key ? `.${key}` : ''}`;
         customValidate.current[keyName] = null;
-        customValidate.current[str] = registerValidator(customerFunc, str);
+        customValidate.current[str] = refreash(func, str);
     };
 
     // 组件value改变事件，prevValidate作为前置校验判断是否校验
     const onChange = (
         func: (val: any) => any | any,
-        subKey?: string,
+        key?: string,
         options?: {prevValidate?: (e?: string) => boolean, atTop?: boolean}
     ) => {
         // 是否运行校验prevValidate先决条件 atTop: 从最上层修改form内属性
         const {prevValidate = () => true, atTop = false} = options ?? {};
-        const str =  atTop ? subKey : `${keyName}${subKey ? `.${subKey}` : ''}`;
+        const str =  atTop ? key : `${keyName}${key ? `.${key}` : ''}`;
         const e = typeof func === 'function' ? func(_.get(form.data, str)) : func;
         _.set(form.data, str, e);
         customValidate.current[str]?.(e, prevValidate(e));
@@ -76,24 +75,23 @@ export const ComponentWrapper: FC<ComponentWrapperProps> = ({
     };
 
     // 获取组件错误信息，可从form最外层获取错误
-    const getError = (subKey?: string, atTop = false) => {
-        const str =  atTop ? subKey : `${keyName}${subKey ? `.${subKey}` : ''}`;
+    const getError = (key?: string, atTop = false) => {
+        const str =  atTop ? key : `${keyName}${key ? `.${key}` : ''}`;
         return _.get(form.error, str);
     };
 
     // 获取组件值，可从form最外层获取值
-    const getValue = (subKey?: string, atTop = false) => {
-        const str =  atTop ? subKey : `${keyName}${subKey ? `.${subKey}` : ''}`;
+    const getValue = (key?: string, atTop = false) => {
+        const str =  atTop ? key : `${keyName}${key ? `.${key}` : ''}`;
         return _.get(form.data, str);
     };
 
     // 向全局注册校验事件，提交表单时调用校验
     useEffect(() => {
         if (_.isEmpty(customValidate.current)) {
-            customValidate.current[keyName] = registerValidator(transformRules(rules), keyName);
+            customValidate.current[keyName] = refreash(validator(rules), keyName);
         }
-        form.validators[keyName] = customValidate.current;
-        return () => form.validators[keyName] = null;
+        form.validators.push(customValidate.current);
     }, []);
 
     // 处理options中的依赖项，可依赖多个选项
@@ -118,7 +116,7 @@ export const ComponentWrapper: FC<ComponentWrapperProps> = ({
         <Component
             setFormValue={form.setFormValue}
             onChange={onChange}
-            validate={customerValidate}
+            validate={validate}
             getError={getError}
             getValue={getValue}
             keyName={keyName}

@@ -11,7 +11,7 @@ import { markdown } from "./constants";
 const designInfo = [
   {
     label: "换热站设计流量1",
-    key: "stationDesignedG1",
+    keyName: "stationDesignedG1",
     required: true,
     value: ({ value, onChange, error }: CustomComponent) => {
       const onchange = (e: string) => {
@@ -38,7 +38,7 @@ const designInfo = [
   },
   {
     label: "试试21",
-    key: "stationDesignedG2",
+    keyName: "stationDesignedG2",
     value: ({ value, onChange, error }: CustomComponent) => {
       const onchange = (e: string) => {
         if (e === "21") {
@@ -58,13 +58,13 @@ const designInfo = [
   },
   {
     label: "换热站设计流量3",
-    key: "stationDesignedG3",
+    keyName: "stationDesignedG3",
     value: Input,
     deps: DEPS.ALL
   },
   {
     label: "换热站设计流量4",
-    key: "stationDesignedG4",
+    keyName: "stationDesignedG4",
     value: FiledsTable
   }
 ];

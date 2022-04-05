@@ -5,27 +5,19 @@
 
 import styled from 'styled-components';
 
-interface FormItemWrapperProps {
-    contentDisplay: string;
-    position: string;
-};
-
-interface LabelWrapperProps {
-    labelColSpan: number;
-    colon: boolean;
-    required: boolean;
-}
-
-export const FormItemWrapper = styled.div<FormItemWrapperProps>`
+export const FormItemWrapper = styled.div<{contentDisplay: string, position: string}>`
     display: flex;
     flex-wrap: nowrap;
     justify-content: ${({position}) => position};
     .form-item-content {
         flex: ${({contentDisplay}) => +(contentDisplay === 'block') };
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 `;
 
-export const LabelWrapper = styled.label<LabelWrapperProps>`
+export const LabelWrapper = styled.label<{labelColSpan: number, colon: boolean, required: boolean}>`
     flex: 0 0 ${({labelColSpan}) => `${100 / 24 * labelColSpan}%`};
     padding-left: calc(4px + 0.5em);
     vertical-align: middle;
@@ -50,8 +42,4 @@ export const LabelWrapper = styled.label<LabelWrapperProps>`
         }
     ` : ''}
 `;
-
-export const DepRenderWrapper = styled.div<{colCount: number}>`
-    display: grid;
-    grid-template-columns: repeat(${({colCount}) => colCount}, 1fr);
-`;
+ 

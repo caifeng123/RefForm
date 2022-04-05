@@ -1,12 +1,11 @@
 /**
  * @file refItem 类型
- * @author caifeng(caifeng01@baidu.com)
+ * @author caifeng01
  */
 
 import {ReactElement, ReactNode} from 'react';
 import {Subject} from 'rxjs';
 
-// 自定义组件props的ts
 export interface CustomComponent {
     [key: string]: any;
     onChange?: (
@@ -15,7 +14,7 @@ export interface CustomComponent {
         options?: {prevValidate?: (e?: string) => boolean, atTop?: boolean}
     ) => void;
     setFormValue?: (e: any | ((val: any) => any), key: string) => void;
-    validate?: (func: (val: any) => string | undefined, key?: string) => void;
+    validate?: (func: (val: string) => string | undefined, key?: string) => void;
     getError?: (key?: string, getTop?: boolean) => any;
     getValue?: (key?: string, getTop?: boolean) => any;
     keyName?: string;
@@ -24,13 +23,26 @@ export interface CustomComponent {
     error?: string | undefined;
 }
 
-// options的ts
-export interface OptionProps {
+export interface RuleType {
+    required?: boolean;
+    message?: string;
+    pattern?: RegExp;
+};
+
+export interface ComponentWrapperProps {
+    subject: Subject<string>;
+    form: FormProps;
+    Component: (props: CustomComponent) => ReactElement;
+    keyName: string;
+    deps?: string[] | DEPS;
+    rules?: RuleType[];
+}
+
+interface OptionProps {
     [key: string]: any;
     label: string | ReactNode | (() => ReactNode);
-    key: string;
+    keyName: string;
     value?: (props: CustomComponent) => ReactElement;
-    component?: any;
     deps?: string[] | DEPS;
     required?: boolean;
     rules?: Array<Record<string, any>>;
@@ -62,7 +74,7 @@ export interface FormProps {
         shouldValid?: ShouldValid
     ) => void;
     setFormValue: (newData: Record<string, any> | ((e: Record<string, any>) => Record<string, any>)) => void;
-    validators: Record<string, Record<string, (value: any, shouldValid?: boolean) => null | string>>;
+    validators: Array<Record<string, (value: any, shouldValid?: boolean) => null | string>>;
 };
 
 export interface RefItemProps extends ItemBase {
@@ -71,19 +83,4 @@ export interface RefItemProps extends ItemBase {
 
 export enum DEPS {
     ALL
-}
-
-export interface RuleType {
-    required?: boolean;
-    message?: string;
-    pattern?: RegExp;
-};
-
-export interface ComponentWrapperProps {
-    subject: Subject<string>;
-    form: FormProps;
-    Component: (props: CustomComponent) => ReactElement;
-    keyName: string;
-    deps?: string[] | DEPS;
-    rules?: RuleType[];
 }
