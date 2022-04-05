@@ -1,3 +1,8 @@
+/**
+ * 自定义input框 只是为了显示一个渲染条
+ * 实际使用直接options配置 component: Input即可 方便快捷
+ */
+
 import { Shine } from "./ui";
 import { Input } from "antd";
 import { CustomComponent } from "react-ref-form";

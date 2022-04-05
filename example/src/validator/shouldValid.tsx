@@ -11,26 +11,26 @@ import { shouldVaild1 } from "./constants";
 const info = [
   {
     label: "换热站设计流量1",
-    keyName: "stationDesignedG1",
+    key: "stationDesignedG1",
     required: true,
     rules: [{ pattern: /\w+/g, message: "请输入内容" }],
     value: Input
   },
   {
     label: "换热站设计流量2",
-    keyName: "stationDesignedG2",
+    key: "stationDesignedG2",
     rules: [{ pattern: /\w+/g, message: "请输入内容" }],
     value: Input
   },
   {
     label: "换热站设计流量3",
-    keyName: "stationDesignedG3",
+    key: "stationDesignedG3",
     rules: [{ pattern: /\w+/g, message: "请输入内容" }],
     value: Input
   },
   {
     label: "换热站设计流量4",
-    keyName: "stationDesignedG4",
+    key: "stationDesignedG4",
     value: FiledsTable
   }
 ];

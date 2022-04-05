@@ -6,15 +6,14 @@ export const markdown = getSummary({
 import { useEffect } from "react";
 import { useForm, RefItem, DEPS, CustomComponent } from "react-ref-form";
 import FiledsTable from "../customerComponents/FiledsTable";
-import Input from "../customerComponents/Input";
-import { Input as AI } from "antd";
+import { Input } from "antd";
 import { getData } from "../constants";
 import { Shine } from "../customerComponents/ui";
 
 const designInfo = [
   {
     label: "换热站设计流量1",
-    keyName: "stationDesignedG1",
+    key: "stationDesignedG1",
     required: true,
     value: ({ value, onChange, error }: CustomComponent) => {
       const onchange = (e: string) => {
@@ -29,7 +28,7 @@ const designInfo = [
       return (
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Shine key={Math.random()} />
-          <AI placeholder="输入123/1234" onChange={(e) => onchange(e.target.value)} value={value} />
+          <Input placeholder="输入123/1234" onChange={(e) => onchange(e.target.value)} value={value} />
           <div style={{ color: "red" }}>{error}</div>
         </div>
       );
@@ -37,7 +36,7 @@ const designInfo = [
   },
   {
     label: "试试21",
-    keyName: "stationDesignedG2",
+    key: "stationDesignedG2",
     value: ({ value, onChange, error }: CustomComponent) => {
       const onchange = (e: string) => {
         if (e === "21") {
@@ -48,7 +47,7 @@ const designInfo = [
       return (
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Shine key={Math.random()} />
-          <AI onChange={(e) => onchange(e.target.value)} value={value} />
+          <Input onChange={(e) => onchange(e.target.value)} value={value} />
           <div style={{ color: "red" }}>{error}</div>
         </div>
       );
@@ -57,13 +56,13 @@ const designInfo = [
   },
   {
     label: "换热站设计流量3",
-    keyName: "stationDesignedG3",
+    key: "stationDesignedG3",
     value: Input,
     deps: DEPS.ALL
   },
   {
     label: "换热站设计流量4",
-    keyName: "stationDesignedG4",
+    key: "stationDesignedG4",
     value: FiledsTable
   }
 ];

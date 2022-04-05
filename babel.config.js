@@ -15,15 +15,5 @@ module.exports = {
             },
         ],
         '@babel/preset-typescript',
-    ],
-    plugins: [
-        [
-            'babel-plugin-import',
-            {
-                libraryName: 'antd',
-                style: 'css',
-            },
-            'antd',
-        ],
-    ],
+    ]
 };

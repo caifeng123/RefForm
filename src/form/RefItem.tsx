@@ -3,13 +3,12 @@
  * @author caifeng(caifeng01@baidu.com)
  */
 
-import {Row, Col} from 'antd';
 import _ from 'lodash';
-import {FC, useEffect, useRef} from 'react';
+import {FC, useEffect, useRef, useState, Fragment} from 'react';
 import {Subject} from 'rxjs';
 import {CustomComponent, RefItemProps, ShouldValid} from '@/@types';
 import {ComponentWrapper, PlainText} from './RefItemUtils';
-import {FormItemWrapper, LabelWrapper} from './ui';
+import {DepRenderWrapper, FormItemWrapper, LabelWrapper} from './ui';
 
 const FormItem = ({position, label, labelColSpan, colon, contentDisplay, className, children, required}) => (
     <FormItemWrapper contentDisplay={contentDisplay} position={position} className={className}>
@@ -20,18 +19,62 @@ const FormItem = ({position, label, labelColSpan, colon, contentDisplay, classNa
 
 // 基本错误显示框架
 const ErrorWrapper = ({
-    value, error, onChange, component = PlainText, validate, validateFunc, filter = e => e, getValue, ...rest
+    value, error, onChange, component: Comp = PlainText, validate, validateFunc, filter = e => e, getValue, ...rest
 }: CustomComponent) => {
     const other = _.omit(rest, ['setFormValue', 'getError', 'getValue', 'keyName']);
-    const Comp = component;
     const customChange = e => onChange(filter(e));
-    useEffect(() => {
-        validateFunc && validate(validateFunc);
-    }, []);
+
+    useEffect(() => validateFunc && validate(validateFunc), []);
+
     return (
         <>
             <Comp value={value} onChange={customChange} {...other} />
             <div style={{color: 'red'}}>{error}</div>
+        </>
+    );
+};
+
+const DivideRender = ({oneOf, controlKey, ...rest}) => {
+    const {form, subject} = rest;
+    const [, forceUpdate] = useState({});
+
+    useEffect(() => {
+        subject.subscribe(key => {
+            if (key === controlKey) {
+                forceUpdate({});
+            }
+        });
+    }, []);
+
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    return <DepRender options={oneOf[_.get(form.data, controlKey)]} {...rest} />;
+};
+
+const DepRender = props => {
+    const {options = [], ...renderProps} = props;
+    const {subject, form, ...styleObj} = renderProps;
+
+    return (
+        <>
+            {_.map(options, ({value = ErrorWrapper, className = '', key, label, oneOf, ...rest}) => (
+                <Fragment key={key}>
+                    <FormItem
+                        {...styleObj}
+                        className={className}
+                        label={label}
+                        required={rest.required}
+                    >
+                        <ComponentWrapper
+                            {...rest}
+                            keyName={key}
+                            subject={subject}
+                            form={form}
+                            Component={value}
+                        />
+                    </FormItem>
+                    {oneOf && <DivideRender oneOf={oneOf} controlKey={key} {...renderProps} /> }
+                </Fragment>
+            ))}
         </>
     );
 };
@@ -45,13 +88,10 @@ export const RefItem: FC<RefItemProps> = ({
     form,
     labelColSpan = 3,
     withColon = true,
-    colCount = 2,
     position = 'start',
     contentDisplay = 'block',
-    customItemClassName = ''
+    colCount = 2,
 }) => {
-    const width = 24 / colCount | 0;
-    const rows = _.chunk(options, colCount);
 
     // 注册多播事件，其他检查是否是个人监听组件
     const subject = useRef(new Subject<string>());
@@ -60,48 +100,21 @@ export const RefItem: FC<RefItemProps> = ({
         // 子组件useEffect先执行完 最后执行item的useEffect
         // 因此在这注册全局校验函数 - 提交时调用
         form.validateFields = (func, shouldValid: ShouldValid = () => true) => {
-            const allValidators = form.validators.reduce((all, temp) => ({...all, ...temp}), {});
+            const allValidators = _.reduce(form.validators, (all, value) => ({...all, ...value}), {});
             const errors = _.map(
                 allValidators,
-                (validator, key) => validator?.(_.get(form.data, key), shouldValid(key))
+                (validator: any, key) => validator?.(_.get(form.data, key), shouldValid(key))
             ).filter(Boolean);
 
             func(errors.length ? errors : null, form.data);
         };
     }, []);
 
+    const renderProps = {labelColSpan, withColon, position, contentDisplay, subject: subject.current, form};
+
     return (
-        <>
-            {_.map(rows, (cols, key) => (
-                <Row className="row" key={key} justify="center">
-                    {
-                        _.map(cols, ({value = ErrorWrapper, keyName, label, ...rest}, index) => (
-                            <Col
-                                span={width}
-                                key={index}
-                            >
-                                <FormItem
-                                    labelColSpan={labelColSpan}
-                                    colon={withColon}
-                                    contentDisplay={contentDisplay}
-                                    position={position}
-                                    className={customItemClassName}
-                                    label={label}
-                                    required={rest.required}
-                                >
-                                    <ComponentWrapper
-                                        {...rest}
-                                        keyName={keyName}
-                                        subject={subject.current}
-                                        form={form}
-                                        Component={value}
-                                    />
-                                </FormItem>
-                            </Col>
-                        ))
-                    }
-                </Row>
-            ))}
-        </>
+        <DepRenderWrapper colCount={colCount}>
+            <DepRender options={options} {...renderProps} />
+        </DepRenderWrapper>
     );
 };

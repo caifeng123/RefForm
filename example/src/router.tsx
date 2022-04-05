@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Base from "./base";
 import Validator from "./validator";
 import Deps from "./deps";
+import Quick from "./quick";
 import Navigator from "./utils/customerComponents/Navigator";
 
 const introduction = [
@@ -16,6 +17,12 @@ const introduction = [
     path: "base",
     introduction: "基本使用",
     element: <Base />
+  },
+  {
+    name: "快速渲染",
+    path: "quick",
+    introduction: "使用配置式快速生成表单",
+    element: <Quick />
   },
   {
     name: "校验",

@@ -48,11 +48,6 @@ module.exports = {
             commonjs: 'react-dom',
             amd: 'react-dom',
         },
-        'antd': {
-            commonjs2: 'antd',
-            commonjs: 'antd',
-            amd: 'antd',
-        },
         'lodash': {
             commonjs2: 'lodash',
             commonjs: 'lodash',
