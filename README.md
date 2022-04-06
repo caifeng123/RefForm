@@ -176,13 +176,13 @@ export default () => {
 
 | Property      | Description               | Type                                     | Default | Required |
 | ------------- | ------------------------- | ---------------------------------------- | ------- | -------- |
-| label         | 表单项标签值              | [Form](#1.2 内置属性 FormProps)          | -       | ✓        |
+| label         | 表单项标签值              | [Form](#12-内置属性-form)          | -       | ✓        |
 | key           | 表单项的key               | string                                   | -       | ✓        |
 | value         | 渲染组件 - 配合自定义组件 | (props: CustomComponent) => ReactElement |         |          |
 | component     | 组件库组件                | ReactElement \| any                      |         |          |
-| deps          | [依赖项](#3.2 deps依赖项) | string[] \| [DEPS](#2.2 deps依赖项)      |         |          |
+| deps          | [依赖项](#3.2 deps依赖项) | string[] \| [DEPS](#22-deps依赖项)      |         |          |
 | required      | 是否必填                  | boolean                                  |         |          |
-| rules         | 校验规则                  | [RuleType](#2.3 RuleType校验规则)[]      |         |          |
+| rules         | 校验规则                  | [RuleType](#23-ruletype校验规则)[]      |         |          |
 | [key: string] | 组件所需props会被透传     | Record<string, any>                      |         |          |
 
 #### 2.2 deps依赖项
@@ -245,8 +245,8 @@ options: OptionProps = [
 
 | Property            | Description                                                     | Type                        | Default  | Required |
 | ------------------- | --------------------------------------------------------------- | --------------------------- | -------- | -------- |
-| form               | 通过useForm生成的对象                                           | [Form](#1.2 内置属性 FormProps) | -        | ✓       |
-| options             | 通过配置表单项渲染列表                                          | [OptionProps](#2.1 options表单API)[] | -        | ✓       |
+| form               | 通过useForm生成的对象                                           | [Form](#12-内置属性-form) | -        | ✓       |
+| options             | 通过配置表单项渲染列表                                          | [OptionProps](#21-options表单api) [] | -        | ✓       |
 | labelColSpan        | label所占宽度份数 (0 ~ 24)                       | number                      | `3`      |          |
 | withColon           | label后是否要跟冒号                                             | boolean                     | `true`   |          |
 | colCount            | 一行几列                                                        | number                      | `2`      |          |
