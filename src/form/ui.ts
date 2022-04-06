@@ -22,6 +22,9 @@ export const FormItemWrapper = styled.div<FormItemWrapperProps>`
     justify-content: ${({position}) => position};
     .form-item-content {
         flex: ${({contentDisplay}) => +(contentDisplay === 'block') };
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 `;
 
@@ -29,9 +32,7 @@ export const LabelWrapper = styled.label<LabelWrapperProps>`
     flex: 0 0 ${({labelColSpan}) => `${100 / 24 * labelColSpan}%`};
     position: relative;
     padding-left: calc(4px + 0.5em);
-    vertical-align: middle;
-    line-height: 40px;
-    display: inline-block;
+    line-height: 30px;
     overflow: hidden;
     color: #000;
     box-sizing: border-box;

@@ -1,7 +1,7 @@
 {
   "name": "react-ref-form",
   "description": "使用ref构建的Form表单",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "homepage": "https://caifeng123.github.io/react-ref-form/docs/",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

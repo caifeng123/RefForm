@@ -10,8 +10,8 @@ import {CustomComponent, RefItemProps, ShouldValid} from '@/@types';
 import {ComponentWrapper, PlainText} from './RefItemUtils';
 import {DepRenderWrapper, FormItemWrapper, LabelWrapper} from './ui';
 
-const FormItem = ({position, label, labelColSpan, colon, contentDisplay, className, children, required}) => (
-    <FormItemWrapper contentDisplay={contentDisplay} position={position} className={className}>
+const FormItem = ({position, label, labelColSpan, colon = true, contentDisplay, className, children, required}) => (
+    <FormItemWrapper contentDisplay={contentDisplay} position={position} className={`rf-row ${className ?? ''}`}>
         <LabelWrapper labelColSpan={labelColSpan} colon={colon} required={required}>{label}</LabelWrapper>
         <div className='form-item-content'>{children}</div>
     </FormItemWrapper>
@@ -88,9 +88,9 @@ export const RefItem: FC<RefItemProps> = ({
     form,
     labelColSpan = 3,
     withColon = true,
+    colCount = 2,
     position = 'start',
     contentDisplay = 'block',
-    colCount = 2,
 }) => {
 
     // 注册多播事件，其他检查是否是个人监听组件
