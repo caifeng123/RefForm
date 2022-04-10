@@ -14,6 +14,7 @@ const Wrapper = styled.div`
 const CodesandBox = () => (
     <Wrapper>
         <h1>playground</h1>
+        <h4>初次加载有点慢 请耐心等待</h4>
         <Sandpack
             template="react-ts"
             files={{
