@@ -1,8 +1,8 @@
-import { getSummary } from "../utils/markdown";
+import {getSummary} from '../utils/markdown';
 
 export const base1 = getSummary({
-  summary: "点击查看示例代码",
-  detail: `
+    summary: '点击查看示例代码',
+    detail: `
 import { useEffect } from "react";
 import { useForm, RefItem, CustomComponent } from "react-ref-form";
 import {Input as AntdInput} from 'antd';
@@ -37,12 +37,12 @@ export default () => {
   );
 };  
   `,
-  language: "javascript"
+    language: 'javascript'
 });
 
 export const base2 = getSummary({
-  summary: "点击查看示例代码",
-  detail: `
+    summary: '点击查看示例代码',
+    detail: `
 import { useEffect } from "react";
 import { useForm, RefItem, CustomComponent } from "react-ref-form";
 import {Input as AntdInput} from 'antd';
@@ -87,12 +87,12 @@ export default () => {
   );
 };  
   `,
-  language: "javascript"
+    language: 'javascript'
 });
 
 export const shouldVaild1 = getSummary({
-  summary: "点击查看示例代码",
-  detail: `
+    summary: '点击查看示例代码',
+    detail: `
 import { useEffect } from "react";
 import { useForm, RefItem, CustomComponent } from "react-ref-form";
 import {Input as AntdInput} from 'antd';
@@ -137,5 +137,5 @@ export default () => {
   );
 };  
   `,
-  language: "javascript"
+    language: 'javascript'
 });

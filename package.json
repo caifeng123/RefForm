@@ -50,6 +50,7 @@
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
+    "@codesandbox/sandpack-react": "^0.18.0",
     "@ecomfe/eslint-config": "^7.3.0",
     "@types/lodash": "^4.14.178",
     "@types/react": "^17.0.37",

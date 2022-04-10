@@ -1,9 +1,9 @@
-import Base from "./base";
-import ShouldValid from "./shouldValid";
+import Base from './base';
+import ShouldValid from './shouldValid';
 
 export default () => (
-  <>
-    <Base />
-    <ShouldValid />
-  </>
+    <>
+        <Base />
+        <ShouldValid />
+    </>
 );

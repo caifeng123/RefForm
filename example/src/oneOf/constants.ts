@@ -1,8 +1,8 @@
-import { getSummary } from "../utils/markdown";
+import {getSummary} from '../utils/markdown';
 
 export const markdown = getSummary({
-  summary: "点击查看示例代码",
-  detail: `
+    summary: '点击查看示例代码',
+    detail: `
 import { useForm, RefItem } from "react-ref-form";
 import {Button,Select,notification, Input} from 'antd'
 import { Wrapper } from "./ui";
@@ -87,5 +87,5 @@ export default () => {
   );
 };
   `,
-  language: "javascript"
+    language: 'javascript'
 });
