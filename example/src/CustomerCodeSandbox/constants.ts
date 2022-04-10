@@ -17,11 +17,15 @@ export const designInfo = [
         component: Checkbox.Group
     },
     {
-        label: '换热站设计流量3',
+        label: '分叉演示',
         key: 'stationDesignedG3',
         required: true,
         options: [{label: 'a', value: 'a'}, {label: 'b', value: 'b'}, {label: 'c', value: 'c'}],
-        component: Select
+        component: Select,
+        oneOf: {
+            "a": [{label: '选a时', key: 'w', component: Input}],
+            "b": [{label: '选b时', key: 'd', component: Select}]
+        }
     },
     {
         label: '换热站设计流量4',
@@ -41,7 +45,6 @@ export const designInfo = [
         key: 'stationDesignedG6',
         value: FiledsTable
     }
-    
 ];
 `;
 
