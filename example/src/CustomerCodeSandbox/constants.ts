@@ -46,7 +46,7 @@ export const designInfo = [
 `;
 
 export const App = `// -- demo start --
-import {Button} from 'antd';
+import {Button, notification} from 'antd';
 import {useEffect} from 'react';
 import {useForm, RefItem} from 'react-ref-form';
 import {designInfo} from './constants';
