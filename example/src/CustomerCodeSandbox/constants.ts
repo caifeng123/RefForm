@@ -78,6 +78,7 @@ export default () => {
 
     return (
         <>
+            <h1>react-ref-form</h1>
             <RefItem colCount={1} labelColSpan={6} options={designInfo} form={form} />
             <Button onClick={submit}>提交</Button>
         </>
